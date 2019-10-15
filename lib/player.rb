@@ -36,7 +36,7 @@ class HumanPlayer < Player
   attr_accessor :weapon_level
 
   def initialize(name)
-		@name = name
+		@name = name # on aurait pu faire un super étant donné que l'attribut est identique à celui de Player (mais on ne gagne pas de code!)
 		@life_points = 100
 		@weapon_level = 1
   end
@@ -69,7 +69,7 @@ class HumanPlayer < Player
 		if dice == 1
 			puts "Tu n'as rien trouvé cette fois"
 		elsif dice < 6
-			@life_points = [life_points + 50, 100].min
+			@life_points = [life_points + 50, 100].min # en utilisant min on cap le nombre de vie à 100
 			puts "Bravo, tu as trouvé un pack de +50 points de vie !"
 		else
 			@life_points = [life_points + 80, 100].min

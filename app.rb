@@ -21,5 +21,3 @@ while Ben.life_points.to_i > 0
 		break	
 	end
 end
-
-binding.pry

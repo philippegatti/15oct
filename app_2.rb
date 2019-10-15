@@ -18,13 +18,13 @@ end
 
 def create_player
 	puts "A ma droite le champion toutes catégories des Human Players"
-	print ">"
+	print ">" # entrer le nom de son champion
 	name = gets.chomp
 	user = HumanPlayer.new(name)
 	return user
 end
 
-def create_enemies(number_of_enemies=2)
+def create_enemies(number_of_enemies=2) # par défaut on lance le jeu avec 2 ennemies mais le code est prévu pour être flexible
 	enemies = []
 	for i in 0..number_of_enemies-1
 		enemies << Player.new("Enemy#{i}")
@@ -39,7 +39,7 @@ def pad(enemies)
 	puts "s - chercher à se soigner"
 	puts ""
 	puts "attaquer un joueur en vue :"
-	for i in 0..enemies.size-1
+	for i in 0..enemies.size-1 # le tableau de commande est adapté en fonction du nombre d'ennemis
 		if enemies[i].life_points.to_i > 0
 			print "#{i} - "
 			print enemies[i].showstate
@@ -47,8 +47,8 @@ def pad(enemies)
 	end
 end
 
-def fight(user, enemies)
-	while user.life_points.to_i >0 && ((enemies[0].life_points).to_i > 0 || (enemies[1].life_points).to_i >0)
+def fight(user, enemies) # j'ai créer une fonction fight pour faciliter la lecture
+	while user.life_points.to_i >0 && enemies.count {|enemy| enemy.life_points.to_i > 0} > 0 # la condition est prévue pour s'adapter au nombre de joueurs
 		puts user.showstate
 		pad(enemies)
 		action = gets.chomp
@@ -59,11 +59,12 @@ def fight(user, enemies)
 		else
 			user.attacks(enemies[action.to_i])
 		end
+		gets.chomp
 		puts "Au tour des robots de t'attaquer"
 		enemies.each {|enemy| if (enemy.life_points).to_i > 0 then enemy.attacks(user) end}
 	end
 	if user.life_points.to_i > 0
-		puts "BRAVO!!! Tu as éliminé tous tes ennemis"
+		puts "Ah bah non ils sont tous morts! BRAVO!!! Tu as éliminé tous tes ennemis"
 	else
 		puts "GAME OVER!!!"
 	end
@@ -71,7 +72,5 @@ end
 
 welcome_message
 user = create_player
-enemies = create_enemies(10)
+enemies = create_enemies(2) #on peut modifier ici le nombre d'ennemis
 fight(user,enemies)
-
-binding.pry

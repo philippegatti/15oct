@@ -4,7 +4,7 @@ class Game
 	attr_accessor :human_player
 	attr_accessor :enemies
 
-	def initialize(name,human_player,number_of_enemies=4)
+	def initialize(name,human_player,number_of_enemies=4) # par défaut on lance une partie à 4 adversaires
 		@enemies = create_enemies(number_of_enemies)
 		@human_player = HumanPlayer.new(human_player)
 	end
@@ -13,16 +13,16 @@ class Game
 		return @enemies.delete_if{|user| user.name == player.name}
 	end
 
-	def create_enemies(number_of_enemies=2)
+	def create_enemies(number_of_enemies=4)
 		enemies = []
-		for i in 0..number_of_enemies-1
+		for i in 0..number_of_enemies-1 # à chaque passage dans la boucle un nouvel ennemi est créé dans l'array
 			enemies << Player.new("Enemy#{i}")
 		end
 		return enemies
 	end
 
 	def is_still_ongoing?
-		human_player.life_points > 0 && @enemies.size > 0
+		human_player.life_points > 0 && @enemies.size > 0 # tant que l'human_player n'est pas mort et qu'il reste un ennemi, le jeu continue
 	end
 
 	def show_players
@@ -56,13 +56,13 @@ class Game
 				kill_player(@enemies[action.to_i])
 			end
 		else
-			puts "Wrong command, tu perds ton tour"
+			puts "Wrong command, tu perds ton tour" # attention! si le joueur entre une autre commande que celles proposées il passe son tour
 		end
 	end
 
 	def enemies_attack
 		if human_player.life_points.to_i > 0
-				@enemies.each {|enemy| if (enemy.life_points).to_i > 0 then enemy.attacks(human_player) end}
+				@enemies.each {|enemy| if (enemy.life_points).to_i > 0 then enemy.attacks(human_player) end} # tant qu'un ennemi est en vie il peut attaquer
 		end
 	end
 
